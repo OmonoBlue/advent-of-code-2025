@@ -5,6 +5,7 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(script_dir, "../input/day01-1.txt")
     part1(file_path)
+    part2(file_path)
 
 
 def getInputs(filename: str) -> list[tuple[str, int]]:
@@ -29,6 +30,29 @@ def part1(filename: str):
             dial += amount
             dial = dial % 100
         if dial == 0:
+            zero_count += 1
+    print(zero_count)
+
+
+def part2(filename: str):
+    inputs = getInputs(filename)
+    dial: int = 50
+    zero_count: int = 0
+    for (direction, amount) in inputs:
+        zero_count += amount // 100
+        amount = amount % 100
+        if direction == "L":
+            dial -= amount
+        else:
+            dial += amount
+        if dial < 0:
+            if dial + amount != 0:
+                zero_count += 1
+            dial += 100
+        elif dial > 99:
+            zero_count += 1
+            dial -= 100
+        elif dial == 0:
             zero_count += 1
     print(zero_count)
 
